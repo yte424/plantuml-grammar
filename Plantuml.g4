@@ -20,20 +20,27 @@ umlclass			: class_declaration  ;
 
 OPEN_BRACE          :  '{';
 CLOSE_BRACE         : '}';
+PARENS:              '()';
 CLASS               : 'class';
 STARTFILE           : '@startuml';
 EMDFILE             : '@enduml';
 COLON				: ':';
+EXPLICIT_METHOD		: '{method';
 WHITESPACES:   (Whitespace | NewLine)+ -> channel(HIDDEN);    
 WORD : [A-Za-z_][A-Za-z_0-9]* ; 
 
 
 class_declaration   : CLASS class_identifier OPEN_BRACE atttribute_def method_def* CLOSE_BRACE;
 atttribute_def      : (objecttype COLON WORD)*;
+method_def          
+		: (objecttype method_name  PARENS) 
+		| (method_name PARENS )
+		;
+method_name			: WORD;
 objecttype			: WORD;
 class_identifier    : WORD;
 identifier          : WORD;
-method_def          : WORD;
+
 //TEXT                : '"' .*? '"' ;
 
 fragment NewLine
