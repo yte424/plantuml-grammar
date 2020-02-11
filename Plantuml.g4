@@ -4,7 +4,7 @@ grammar Plantuml;
  * Parser Rules
  */
 
-plantumlfile		: STARTFILE (umlclass)+ EMDFILE;
+plantumlfile		: STARTFILE title (umlclass)+ EMDFILE;
 name                : WORD ;	
 umlclass			: class_declaration  ;
 
@@ -28,12 +28,13 @@ COLON				: ':';
 EXPLICIT_METHOD		: '{method';
 WHITESPACES:   (Whitespace | NewLine)+ -> channel(HIDDEN);    
 WORD : [A-Za-z_][A-Za-z_0-9]* ; 
+TITELIdentifier		: 'title';
 
-
+title				: TITELIdentifier WORD NewLine;
 class_declaration   : CLASS class_identifier OPEN_BRACE atttribute_def method_def* CLOSE_BRACE;
 atttribute_def      : (objecttype COLON WORD)*;
 method_def          
-		: (objecttype method_name  PARENS) 
+		: (method_name COLON objecttype PARENS) 
 		| (method_name PARENS )
 		;
 method_name			: WORD;
